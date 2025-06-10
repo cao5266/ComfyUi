@@ -67,8 +67,7 @@ export function useTemplateWorkflows() {
         ? api.fileURL(`/templates/${template.name}`)
         : api.apiURL(`/workflow_templates/${sourceModule}/${template.name}`)
 
-    const indexSuffix = sourceModule === 'default' && index ? `-${index}` : ''
-    return `${basePath}${indexSuffix}.${template.mediaSubtype}`
+    return `${basePath}.${template.mediaSubtype}`
   }
 
   /**
@@ -102,7 +101,6 @@ export function useTemplateWorkflows() {
 
     loadingTemplateId.value = id
     let json
-
     try {
       // Handle "All" category as a special case
       if (sourceModule === 'all') {

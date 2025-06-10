@@ -676,6 +676,24 @@
     "showMenu": "显示菜单",
     "toggleBottomPanel": "底部面板"
   },
+  "executionControl": {
+    "normal": "普通",
+    "accelerated": "加速",
+    "startGeneration": "开始生图",
+    "modeSwitch": "模式切换",
+    "modeSwitchDetail": "已切换到{mode}模式",
+    "priorityExecution": "优先执行",
+    "normalExecution": "正常执行",
+    "batchCount": "{count}批次",
+    "generationStarted": "{mode}生图已启动",
+    "workflowQueued": "工作流已添加到队列",
+    "generationFailed": "生图失败",
+    "checkWorkflowConfig": "无法执行工作流，请检查节点配置",
+    "taskInterrupted": "任务已中断",
+    "currentTaskInterrupted": "当前正在执行的任务已被中断",
+    "queueCleared": "队列已清空",
+    "allPendingTasksCleared": "所有待处理任务已被清除"
+  },
   "menuLabels": {
     "About ComfyUI": "关于ComfyUI",
     "Browse Templates": "浏览模板",
@@ -1144,6 +1162,7 @@
       "Basics": "基础",
       "ComfyUI Examples": "ComfyUI示例",
       "ControlNet": "ControlNet",
+      "Custom Templates": "自定义模板",
       "Custom Nodes": "自定义节点",
       "Flux": "Flux",
       "Image": "图片",
@@ -1176,6 +1195,12 @@
         "inpaint_example": "Inpaint",
         "lora": "Lora",
         "lora_multiple": "Lora多个"
+      },
+      "Custom Templates": {
+        "default": "自定义默认模板",
+        "flux_schnell": "自定义Flux快速生成",
+        "image2image": "自定义图像转换",
+        "upscale": "自定义图像放大"
       },
       "ControlNet": {
         "2_pass_pose_worship": "双通道姿势处理",
@@ -1276,6 +1301,12 @@
         "inpaint_example": "无缝编辑图像的特定部分。",
         "lora": "应用 LoRA 模型以实现特定风格或主题。",
         "lora_multiple": "组合多个 LoRA 模型以获得独特效果。"
+      },
+      "Custom Templates": {
+        "default": "使用自定义设置根据文本描述生成图像。",
+        "flux_schnell": "使用Flux Schnell模型快速生成高质量图像。",
+        "image2image": "使用自定义节点将现有图像转换为新的风格。",
+        "upscale": "使用自定义放大工作流提升图像质量和分辨率。"
       },
       "ControlNet": {
         "2_pass_pose_worship": "通过姿态参考生成图像。",

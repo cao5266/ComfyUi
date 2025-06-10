@@ -27,7 +27,8 @@
         </template>
       </SelectButton>
     </ScrollPanel>
-    <Button
+    <!-- 已隐藏：创建空白工作流按钮，功能已转移到最左侧新建菜单 -->
+    <!-- <Button
       v-tooltip="{ value: $t('sideToolbar.newBlankWorkflow'), showDelay: 300 }"
       class="new-blank-workflow-button flex-shrink-0 no-drag"
       icon="pi pi-plus"
@@ -35,13 +36,12 @@
       severity="secondary"
       :aria-label="$t('sideToolbar.newBlankWorkflow')"
       @click="() => commandStore.execute('Comfy.NewBlankWorkflow')"
-    />
+    /> -->
     <ContextMenu ref="menu" :model="contextMenuItems" />
   </div>
 </template>
 
 <script setup lang="ts">
-import Button from 'primevue/button'
 import ContextMenu from 'primevue/contextmenu'
 import ScrollPanel from 'primevue/scrollpanel'
 import SelectButton from 'primevue/selectbutton'

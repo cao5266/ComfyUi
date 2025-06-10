@@ -59,7 +59,35 @@ export const useMenuItemStore = defineStore('menuItem', () => {
             comfyCommand: command
           }) as MenuItem
       )
-    registerMenuGroup(path, items)
+
+    // 特定菜单项直接执行，而不显示子菜单（仅限于单一功能的菜单）
+    const directExecuteMenus = ['New', 'Browse Templates', 'Open'] // 只有这些菜单直接执行，编辑菜单保持子菜单结构
+    if (
+      path.length === 1 &&
+      commandIds.length === 1 &&
+      directExecuteMenus.includes(path[0])
+    ) {
+      const command = commandStore.getCommand(commandIds[0])
+      const menuItem: MenuItem = {
+        label: path[0], // 使用菜单路径作为标签
+        command: () => commandStore.execute(command.id),
+        icon: command.icon,
+        tooltip: command.tooltip,
+        comfyCommand: command
+      }
+
+      // 直接添加到根级菜单
+      const existingIndex = menuItems.value.findIndex(
+        (item) => item.label === path[0]
+      )
+      if (existingIndex >= 0) {
+        menuItems.value[existingIndex] = menuItem
+      } else {
+        menuItems.value.push(menuItem)
+      }
+    } else {
+      registerMenuGroup(path, items)
+    }
   }
 
   const loadExtensionMenuCommands = (extension: ComfyExtension) => {

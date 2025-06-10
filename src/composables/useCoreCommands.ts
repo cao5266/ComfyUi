@@ -209,7 +209,7 @@ export function useCoreCommands(): ComfyCommand[] {
     },
     {
       id: 'Comfy.BrowseTemplates',
-      icon: 'pi pi-folder-open',
+      icon: 'pi pi-image',
       label: 'Browse Templates',
       function: () => {
         dialogService.showTemplateWorkflowsDialog()

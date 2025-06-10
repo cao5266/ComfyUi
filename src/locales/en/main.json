@@ -123,7 +123,17 @@
     "copy": "Copy",
     "imageUrl": "Image URL",
     "clear": "Clear",
-    "copyURL": "Copy URL"
+    "copyURL": "Copy URL",
+    "selectModel": "Select Model",
+    "myModels": "My Models",
+    "starredModels": "Starred Models",
+    "baseAlgorithm": "Base Algorithm",
+    "selectCheckpoint": "Select CHECKPOINT",
+    "oneClickApply": "One Click Apply",
+    "modelLibrary": "Model Library",
+    "modelVersion": "Version",
+    "noModelsFound": "No models found",
+    "searchModelPlaceholder": "Search model name"
   },
   "manager": {
     "title": "Custom Nodes Manager",
@@ -490,6 +500,24 @@
     "clear": "Clear workflow",
     "toggleBottomPanel": "Toggle Bottom Panel"
   },
+  "executionControl": {
+    "normal": "Normal",
+    "accelerated": "Accelerated",
+    "startGeneration": "Start Generation",
+    "modeSwitch": "Mode Switch",
+    "modeSwitchDetail": "Switched to {mode} mode",
+    "priorityExecution": "Priority Execution",
+    "normalExecution": "Normal Execution",
+    "batchCount": "{count} batches",
+    "generationStarted": "{mode} started",
+    "workflowQueued": "Workflow added to queue",
+    "generationFailed": "Generation Failed",
+    "checkWorkflowConfig": "Unable to execute workflow, please check node configuration",
+    "taskInterrupted": "Task Interrupted",
+    "currentTaskInterrupted": "Current running task has been interrupted",
+    "queueCleared": "Queue Cleared",
+    "allPendingTasksCleared": "All pending tasks have been cleared"
+  },
   "tabMenu": {
     "duplicateTab": "Duplicate Tab",
     "closeTab": "Close Tab",
@@ -504,6 +532,7 @@
     "category": {
       "ComfyUI Examples": "ComfyUI Examples",
       "Custom Nodes": "Custom Nodes",
+      "Custom Templates": "Custom Templates",
       "Basics": "Basics",
       "Flux": "Flux",
       "ControlNet": "ControlNet",

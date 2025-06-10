@@ -11,6 +11,11 @@
       text
       size="large"
       :aria-label="$t('menu.showMenu')"
+      :pt="{
+        root: {
+          style: 'padding: 1rem; font-size: 1.5rem;'
+        }
+      }"
       aria-live="assertive"
       @click="exitFocusMode"
       @contextmenu="showNativeSystemMenu"

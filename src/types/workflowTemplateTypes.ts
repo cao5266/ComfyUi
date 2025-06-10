@@ -18,6 +18,7 @@ export interface WorkflowTemplates {
   moduleName: string
   templates: TemplateInfo[]
   title: string
+  localizedTitle?: string
 }
 
 export interface TemplateGroup {

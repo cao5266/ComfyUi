@@ -10,7 +10,7 @@
   --bg-color: #fff;
   --comfy-menu-bg: #353535;
   --comfy-menu-secondary-bg: #292929;
-  --comfy-topbar-height: 2.5rem;
+  --comfy-topbar-height: 3rem;
   --comfy-input-bg: #222;
   --input-text: #ddd;
   --descrip-text: #999;
@@ -599,7 +599,7 @@ audio.comfy-audio.empty-audio-widget {
 .comfy-load-3d,
 .comfy-load-3d-animation,
 .comfy-preview-3d,
-.comfy-preview-3d-animation{
+.comfy-preview-3d-animation {
   display: flex;
   flex-direction: column;
   background: transparent;
@@ -611,7 +611,7 @@ audio.comfy-audio.empty-audio-widget {
 .comfy-load-3d canvas,
 .comfy-load-3d-animation canvas,
 .comfy-preview-3d canvas,
-.comfy-preview-3d-animation canvas{
+.comfy-preview-3d-animation canvas {
   display: flex;
   width: 100% !important;
   height: 100% !important;

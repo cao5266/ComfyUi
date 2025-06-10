@@ -1126,6 +1126,24 @@
     },
     "workflows": "워크플로"
   },
+  "executionControl": {
+    "normal": "일반",
+    "accelerated": "가속",
+    "startGeneration": "생성 시작",
+    "modeSwitch": "모드 전환",
+    "modeSwitchDetail": "{mode} 모드로 전환됨",
+    "priorityExecution": "우선 실행",
+    "normalExecution": "일반 실행",
+    "batchCount": "{count}개 배치",
+    "generationStarted": "{mode} 시작됨",
+    "workflowQueued": "워크플로가 대기열에 추가됨",
+    "generationFailed": "생성 실패",
+    "checkWorkflowConfig": "워크플로를 실행할 수 없습니다. 노드 구성을 확인하세요",
+    "taskInterrupted": "작업 중단됨",
+    "currentTaskInterrupted": "현재 실행 중인 작업이 중단되었습니다",
+    "queueCleared": "대기열 지워짐",
+    "allPendingTasksCleared": "모든 대기 중인 작업이 지워졌습니다"
+  },
   "tabMenu": {
     "addToBookmarks": "북마크에 추가",
     "closeOtherTabs": "다른 탭 닫기",
@@ -1145,6 +1163,7 @@
       "ComfyUI Examples": "ComfyUI 예시",
       "ControlNet": "컨트롤넷",
       "Custom Nodes": "사용자 정의 노드",
+      "Custom Templates": "커스텀 템플릿",
       "Flux": "FLUX",
       "Image": "이미지",
       "Image API": "이미지 API",
@@ -1433,5 +1452,26 @@
     "enterFilename": "파일 이름 입력",
     "exportWorkflow": "워크플로 내보내기",
     "saveWorkflow": "워크플로 저장"
+  },
+  "extensionName": "확장 프로그램 이름",
+  "extensionRepo": "확장 프로그램 저장소",
+  "extensionVersion": "확장 프로그램 버전",
+  "executionControl": {
+    "batchCount": "배치 수",
+    "clearQueue": "큐 지우기",
+    "currentMode": "현재 모드",
+    "interrupt": "중단",
+    "mode": "모드",
+    "pause": "일시정지",
+    "queueCleared": "큐가 지워졌습니다",
+    "queueClearedMessage": "실행 큐가 성공적으로 지워졌습니다",
+    "queueInterrupted": "큐가 중단되었습니다",
+    "queueInterruptedMessage": "현재 실행이 중단되었습니다",
+    "resume": "재개",
+    "startGeneration": "생성 시작",
+    "startGenerationTooltip": "현재 워크플로우 실행",
+    "toggleBatchCount": "배치 수 전환",
+    "toggleMode": "모드 전환",
+    "toggleModeTooltip": "즉시 모드와 큐 모드 간 전환"
   }
 }

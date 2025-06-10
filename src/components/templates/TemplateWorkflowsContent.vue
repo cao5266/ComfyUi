@@ -39,11 +39,13 @@
         <TemplateWorkflowView
           v-if="isReady && selectedTemplate"
           class="px-12 py-4"
-          :title="selectedTemplate.title"
+          :title="selectedTemplate.localizedTitle || selectedTemplate.title"
           :source-module="selectedTemplate.moduleName"
           :templates="selectedTemplate.templates"
           :loading="loadingTemplateId"
-          :category-title="selectedTemplate.title"
+          :category-title="
+            selectedTemplate.localizedTitle || selectedTemplate.title
+          "
           @load-workflow="handleLoadWorkflow"
         />
       </div>

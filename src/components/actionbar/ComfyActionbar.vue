@@ -1,5 +1,6 @@
 <template>
-  <Panel
+  <!-- 已隐藏：底部执行控制按钮，功能已转移到顶部 -->
+  <!-- <Panel
     class="actionbar w-fit"
     :style="style"
     :class="{ 'is-dragging': isDragging, 'is-docked': isDocked }"
@@ -8,7 +9,7 @@
       <span ref="dragHandleRef" class="drag-handle cursor-move mr-2 p-0!" />
       <ComfyQueueButton />
     </div>
-  </Panel>
+  </Panel> -->
 </template>
 
 <script lang="ts" setup>
@@ -21,12 +22,12 @@ import {
   watchDebounced
 } from '@vueuse/core'
 import { clamp } from 'lodash'
-import Panel from 'primevue/panel'
 import { Ref, computed, inject, nextTick, onMounted, ref, watch } from 'vue'
 
 import { useSettingStore } from '@/stores/settingStore'
 
-import ComfyQueueButton from './ComfyQueueButton.vue'
+// 已隐藏：底部执行控制按钮组件
+// import ComfyQueueButton from './ComfyQueueButton.vue'
 
 const settingsStore = useSettingStore()
 
