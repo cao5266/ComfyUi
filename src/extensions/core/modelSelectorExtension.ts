@@ -1,3 +1,4 @@
+import { t } from '@/i18n'
 import { app } from '@/scripts/app'
 import { useModelSelectorService } from '@/services/modelSelectorService'
 import type { ModelInfo } from '@/types/model'
@@ -12,6 +13,25 @@ app.registerExtension({
 
   init() {
     console.log('🎯 Model Selector Extension - Init called!')
+
+    // 添加全局测试函数
+    if (typeof window !== 'undefined') {
+      ;(window as any).testModelSelector = () => {
+        console.log('🧪 Testing model selector...')
+        try {
+          const result = showModelSelector({
+            title: t('g.selectCheckpointModel'),
+            onSelect: (selectedModel: ModelInfo) => {
+              console.log('✅ Test model selected:', selectedModel.displayName)
+            }
+          })
+          console.log('📋 Test result:', result)
+        } catch (error) {
+          console.error('❌ Test error:', error)
+        }
+      }
+      console.log('🧪 Added window.testModelSelector() for testing')
+    }
   },
 
   beforeRegisterNodeDef(nodeType: any, nodeData: any) {
@@ -59,6 +79,9 @@ app.registerExtension({
                     '🎯 Found checkpoint widget, applying minimal interception...'
                   )
 
+                  // 标记这个widget为被拦截的
+                  widget._isIntercepted = true
+
                   // 保存原始方法
                   const originalCallback = widget.callback
                   const originalMouse = widget.mouse
@@ -71,34 +94,44 @@ app.registerExtension({
                       event.button
                     )
 
-                    // 拦截所有可能触发下拉菜单的左键事件
-                    if (
-                      event.button === 0 &&
-                      (event.type === 'pointerdown' ||
-                        event.type === 'pointerup' ||
-                        event.type === 'mousedown' ||
-                        event.type === 'mouseup' ||
-                        event.type === 'click')
-                    ) {
+                    // 拦截左键点击事件
+                    if (event.button === 0) {
                       console.log(
-                        '🎉 Intercepting mouse event for checkpoint widget!',
+                        '🎉 Intercepting left click for checkpoint widget!',
                         event.type
                       )
 
-                      // 显示自定义模型选择器
-                      showModelSelector({
-                        title: '选择检查点模型',
-                        onSelect: (selectedModel: ModelInfo) => {
-                          console.log('✅ Model selected:', selectedModel.name)
-                          widget.value = selectedModel.name
-                          if (originalCallback) {
-                            originalCallback.call(widget, selectedModel.name)
-                          }
-                          app.canvas.setDirty(true)
-                        }
-                      })
+                      // 阻止默认行为和事件传播
+                      event.preventDefault()
+                      event.stopPropagation()
+                      event.stopImmediatePropagation()
 
-                      // 阻止默认下拉菜单
+                      // 显示自定义模型选择器
+                      console.log('🚀 Showing model selector...')
+                      try {
+                        const result = showModelSelector({
+                          title: t('g.selectCheckpointModel'),
+                          onSelect: (selectedModel: ModelInfo) => {
+                            console.log(
+                              '✅ Model selected:',
+                              selectedModel.displayName
+                            )
+                            widget.value = selectedModel.displayName
+                            if (originalCallback) {
+                              originalCallback.call(
+                                widget,
+                                selectedModel.displayName
+                              )
+                            }
+                            app.canvas.setDirty(true)
+                          }
+                        })
+                        console.log('📋 showModelSelector result:', result)
+                      } catch (error) {
+                        console.error('❌ Error showing model selector:', error)
+                      }
+
+                      // 完全阻止进一步处理
                       return true
                     }
 
@@ -109,6 +142,57 @@ app.registerExtension({
 
                     return false
                   }
+
+                  // 重写 onMouseDown 来阻止默认的 combo 行为
+                  const originalOnMouseDown = widget.onMouseDown
+                  widget.onMouseDown = function (event: any) {
+                    if (event.button === 0) {
+                      console.log('🚫 Blocking default combo onMouseDown')
+                      // 显示自定义模型选择器
+                      showModelSelector({
+                        title: t('g.selectCheckpointModel'),
+                        onSelect: (selectedModel: ModelInfo) => {
+                          console.log(
+                            '✅ Model selected via onMouseDown:',
+                            selectedModel.displayName
+                          )
+                          widget.value = selectedModel.displayName
+                          if (originalCallback) {
+                            originalCallback.call(
+                              widget,
+                              selectedModel.displayName
+                            )
+                          }
+                          app.canvas.setDirty(true)
+                        }
+                      })
+                      return true // 阻止默认处理
+                    }
+
+                    // 其他按钮正常处理
+                    if (originalOnMouseDown) {
+                      return originalOnMouseDown.call(this, event)
+                    }
+                    return false
+                  }
+
+                  // 重写 combo 的点击处理
+                  if (widget.options && widget.options.values) {
+                    // 备份原始选项
+                    widget._originalOptions = [...widget.options.values]
+                  }
+
+                  // 重写 widget 的属性以阻止默认下拉显示
+                  Object.defineProperty(widget, 'options', {
+                    get: function () {
+                      // 返回空选项来阻止下拉菜单显示
+                      return { values: [] }
+                    },
+                    set: function (value) {
+                      // 保存真实选项但不显示
+                      this._realOptions = value
+                    }
+                  })
                 }
 
                 // 为所有 combo widget 添加右键菜单选项
@@ -121,11 +205,11 @@ app.registerExtension({
                     content: '🔍 浏览模型...',
                     callback: () => {
                       showModelSelector({
-                        title: '选择检查点模型',
+                        title: t('g.selectCheckpointModel'),
                         onSelect: (selectedModel: ModelInfo) => {
-                          widget.value = selectedModel.name
+                          widget.value = selectedModel.displayName
                           if (widget.callback) {
-                            widget.callback(selectedModel.name)
+                            widget.callback(selectedModel.displayName)
                           }
                           app.canvas.setDirty(true)
                         }

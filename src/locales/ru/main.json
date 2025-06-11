@@ -368,7 +368,17 @@
     "upload": "Загрузить",
     "user": "Пользователь",
     "videoFailedToLoad": "Не удалось загрузить видео",
-    "workflow": "Рабочий процесс"
+    "workflow": "Рабочий процесс",
+    "selectCheckpoint": "Выбрать CHECKPOINT",
+    "myModels": "Мои Модели",
+    "starredModels": "Избранные Модели",
+    "newest": "Новейшие",
+    "popular": "Популярные",
+    "oneClickApply": "Применить в Один Клик",
+    "noModelsFound": "Модели не найдены",
+    "searchModelPlaceholder": "Поиск по имени модели",
+    "sortBy": "Сортировать по",
+    "selectCheckpointModel": "Выбрать Модель Контрольной Точки"
   },
   "graphCanvasMenu": {
     "fitView": "Подгонять под выделенные",

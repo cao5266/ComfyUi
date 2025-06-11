@@ -3,6 +3,7 @@ description:
 globs: 
 alwaysApply: false
 ---
+# 代码每次修改涉及到文字的地方都要添加国际化配置，每个语言都要配置
 # 代码修改记录规则
 
 ## 修改记录要求

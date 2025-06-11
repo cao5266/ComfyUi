@@ -152,6 +152,10 @@
   "Comfy_OpenWorkflow": {
     "label": "ワークフローを開く"
   },
+  "Comfy_PublishWorkflow": {
+    "label": "ワークフローを公開",
+    "tooltip": "ワークフローを公開（欠落ノードがなく、パラメータ設定が完了している必要があります）"
+  },
   "Comfy_QueuePrompt": {
     "label": "キュープロンプト"
   },

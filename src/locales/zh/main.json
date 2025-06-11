@@ -53,7 +53,7 @@
       "signUp": "注册",
       "success": "登录成功",
       "termsLink": "使用条款",
-      "termsText": "点击“下一步”或“注册”即表示您同意我们的",
+      "termsText": "点击\"下一步\"或\"注册\"即表示您同意我们的",
       "title": "登录您的账户",
       "useApiKey": "Comfy API 密钥",
       "userAvatar": "用户头像"
@@ -366,7 +366,17 @@
     "upload": "上传",
     "user": "用户",
     "videoFailedToLoad": "视频加载失败",
-    "workflow": "工作流"
+    "workflow": "工作流",
+    "selectCheckpoint": "选择CHECKPOINT",
+    "myModels": "我的模型库",
+    "starredModels": "星标模型",
+    "newest": "最新",
+    "popular": "热门",
+    "oneClickApply": "一键应用",
+    "noModelsFound": "未找到模型",
+    "searchModelPlaceholder": "搜索模型名称",
+    "sortBy": "排序方式",
+    "selectCheckpointModel": "选择检查点模型"
   },
   "graphCanvasMenu": {
     "fitView": "适应视图",
@@ -692,7 +702,9 @@
     "taskInterrupted": "任务已中断",
     "currentTaskInterrupted": "当前正在执行的任务已被中断",
     "queueCleared": "队列已清空",
-    "allPendingTasksCleared": "所有待处理任务已被清除"
+    "allPendingTasksCleared": "所有待处理任务已被清除",
+    "stateReset": "状态已重置",
+    "stateResetDetail": "所有任务已清空，按钮状态已恢复"
   },
   "menuLabels": {
     "About ComfyUI": "关于ComfyUI",
@@ -743,6 +755,7 @@
     "Pin/Unpin Selected Items": "固定/取消固定选定项目",
     "Pin/Unpin Selected Nodes": "固定/取消固定选定节点",
     "Previous Opened Workflow": "上一个打开的工作流",
+    "Publish": "发布工作流（需要无缺失节点且参数配置完整）",
     "Queue Prompt": "执行提示词",
     "Queue Prompt (Front)": "执行提示词 (优先执行)",
     "Queue Selected Output Nodes": "将所选输出节点加入队列",
@@ -1464,5 +1477,32 @@
     "enterFilename": "输入文件名",
     "exportWorkflow": "导出工作流",
     "saveWorkflow": "保存工作流"
+  },
+  "publishSelector": {
+    "title": "选择发布方式",
+    "workflowOnly": {
+      "description": "以原始工作流的形式发布，用户可基于此工作流学习和借鉴工作流搭建的思路，自由探索节点和参数的搭配组合",
+      "button": "仅发布工作流"
+    },
+    "aiApp": {
+      "description": "通过精简ComfyUI的操作流程，只需编辑最核心的设置，用户即可轻松使用。编辑后的AI应用将获得更多流量和收益",
+      "button": "编辑AI应用"
+    }
+  },
+  "queue": {
+    "title": "队列"
+  },
+  "common": {
+    "cancel": "取消",
+    "close": "关闭",
+    "confirm": "确认",
+    "copy": "复制",
+    "delete": "删除",
+    "edit": "编辑",
+    "load": "加载",
+    "loading": "加载中",
+    "ok": "确定",
+    "recommended": "推荐",
+    "rename": "重命名"
   }
 }

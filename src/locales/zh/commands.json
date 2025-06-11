@@ -152,6 +152,10 @@
   "Comfy_OpenWorkflow": {
     "label": "打开工作流"
   },
+  "Comfy_PublishWorkflow": {
+    "label": "发布工作流",
+    "tooltip": "发布工作流（需要无缺失节点且参数配置完整）"
+  },
   "Comfy_QueuePrompt": {
     "label": "执行提示词"
   },

@@ -61,7 +61,7 @@ export const useMenuItemStore = defineStore('menuItem', () => {
       )
 
     // 特定菜单项直接执行，而不显示子菜单（仅限于单一功能的菜单）
-    const directExecuteMenus = ['New', 'Browse Templates', 'Open'] // 只有这些菜单直接执行，编辑菜单保持子菜单结构
+    const directExecuteMenus = ['New', 'Browse Templates', 'Open', 'Publish'] // 只有这些菜单直接执行，编辑菜单保持子菜单结构
     if (
       path.length === 1 &&
       commandIds.length === 1 &&

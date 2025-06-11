@@ -1,92 +1,81 @@
 <template>
   <div
-    class="model-card bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg overflow-hidden cursor-pointer transition-all duration-200 hover:shadow-md hover:border-blue-400"
-    :class="{
-      'ring-2 ring-blue-400': selected,
-      'opacity-50': !model.isInstalled && showOnlyInstalled
-    }"
+    class="model-card group relative overflow-hidden rounded-lg cursor-pointer transition-all duration-300 ease-out"
     @click="$emit('select', model.id)"
   >
-    <!-- Preview Image -->
-    <div
-      class="aspect-square relative overflow-hidden bg-gray-100 dark:bg-gray-900"
-    >
+    <!-- Background Image -->
+    <div class="aspect-square relative overflow-hidden bg-gray-100 dark:bg-gray-900">
       <img
         v-if="model.previewImage"
         :src="model.previewImage"
         :alt="model.displayName || model.name"
-        class="w-full h-full object-cover"
+        class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
         loading="lazy"
         @error="onImageError"
       />
       <div
         v-else
-        class="w-full h-full flex items-center justify-center text-gray-400"
+        class="w-full h-full flex items-center justify-center text-gray-400 bg-gray-200 dark:bg-gray-800"
       >
         <i class="pi pi-image text-4xl"></i>
       </div>
 
       <!-- Version Badge -->
-      <div class="absolute top-2 right-2">
-        <Tag :value="model.version" severity="secondary" class="text-xs" />
+      <div class="absolute top-3 right-3 z-10">
+        <div class="bg-black/60 backdrop-blur-sm text-white px-2 py-1 rounded text-xs font-medium">
+          {{ model.version }}
+        </div>
       </div>
 
       <!-- Star Badge -->
-      <div v-if="model.isStarred" class="absolute top-2 left-2">
-        <Tag icon="pi pi-star-fill" severity="warning" class="text-xs" />
+      <div v-if="model.isStarred" class="absolute top-3 left-3 z-10">
+        <div class="bg-yellow-500 text-white p-1 rounded-full starBadge">
+          <i class="pi pi-star-fill text-xs"></i>
+        </div>
       </div>
 
       <!-- Installation Status -->
-      <div v-if="!model.isInstalled" class="absolute bottom-2 right-2">
-        <Tag :value="$t('manager.install')" severity="info" class="text-xs" />
+      <div v-if="!model.isInstalled" class="absolute top-3 left-1/2 transform -translate-x-1/2 z-10">
+        <div class="bg-blue-500 text-white px-2 py-1 rounded text-xs font-medium">
+          {{ $t('manager.install') }}
+        </div>
       </div>
     </div>
 
-    <!-- Model Info -->
-    <div class="p-3">
-      <h3
-        class="font-medium text-sm text-gray-900 dark:text-gray-100 truncate mb-1"
-        :title="model.displayName || model.name"
-      >
-        {{ model.displayName || model.name }}
-      </h3>
+    <!-- Bottom Info Overlay -->
+    <div class="absolute bottom-0 left-0 right-0 z-20">
+      <!-- Background Overlay -->
+      <div class="bg-gradient-to-t from-black via-black/80 to-transparent h-28 absolute inset-0 transition-all duration-300 group-hover:h-36"></div>
+      
+      <!-- Content Container -->
+      <div class="contentContainer  relative p-4 text-white transition-all duration-300 group-hover:pb-16">
+        <!-- Model Info -->
+        <div class="transition-all duration-300 group-hover:-translate-y-2">
+          <h3 class="font-medium text-sm truncate mb-1" :title="model.displayName || model.name">
+            {{ model.displayName || model.name }}
+          </h3>
+          
+          <div class="flex items-center justify-between text-xs opacity-90">
+            <span v-if="model.author" class="truncate">{{ model.author }}</span>
+          </div>
+        </div>
 
-      <p
-        v-if="model.author"
-        class="text-xs text-gray-500 dark:text-gray-400 truncate mb-2"
-      >
-        {{ model.author }}
-      </p>
-
-      <div class="flex flex-wrap gap-1 mb-2">
-        <Tag
-          v-for="tag in model.tags?.slice(0, 2)"
-          :key="tag"
-          :value="tag"
-          severity="secondary"
-          class="text-xs"
-        />
-        <span
-          v-if="model.tags && model.tags.length > 2"
-          class="text-xs text-gray-400"
-        >
-          +{{ model.tags.length - 2 }}
-        </span>
-      </div>
-
-      <div
-        class="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400"
-      >
-        <span v-if="model.size">{{ model.size }}</span>
-        <span v-if="model.updatedAt">{{ formatDate(model.updatedAt) }}</span>
+        <!-- Action Button - Appears on Hover -->
+        <div class="absolute bottom-4 left-4 right-4 transition-all duration-300 transform translate-y-8 opacity-0 group-hover:translate-y-0 group-hover:opacity-100">
+          <button
+            class="apply-button w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg font-medium text-sm transition-colors duration-200"
+            @click.stop="handleApply"
+          >
+            {{ $t('g.oneClickApply') }}
+          </button>
+        </div>
       </div>
     </div>
+
   </div>
 </template>
 
 <script setup lang="ts">
-import Tag from 'primevue/tag'
-
 import type { ModelInfo } from '@/types/model'
 
 const {
@@ -99,8 +88,9 @@ const {
   showOnlyInstalled?: boolean
 }>()
 
-defineEmits<{
+const emit = defineEmits<{
   select: [modelId: string]
+  apply: [model: ModelInfo]
 }>()
 
 const formatDate = (dateStr: string) => {
@@ -115,14 +105,57 @@ const onImageError = (event: Event) => {
   const img = event.target as HTMLImageElement
   img.style.display = 'none'
 }
+
+const handleApply = () => {
+  emit('apply', model)
+}
 </script>
 
 <style scoped>
-.model-card {
-  transition: all 0.2s ease-in-out;
+
+.aspect-square{
+    aspect-ratio: 3 / 4;
 }
 
-.model-card:hover {
-  transform: translateY(-2px);
+.starBadge{
+    padding: 4px 7px;
 }
+
+.contentContainer{
+    background-color: rgba(0, 0, 0, 0.2);
+    padding: 8px 10px;
+}
+
+.apply-button {
+  border: none;
+  outline: none;
+  box-shadow: none;
+  cursor: pointer;
+  background-color: #037af1;
+}
+
+.apply-button:hover {
+  background-color: #1987f5;
+}
+
+.apply-button:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.apply-button:active {
+  outline: none;
+  box-shadow: none;
+}
+
+.model-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
+  height: auto;
+}
+
+.model-card:hover .aspect-square img{
+    transform: scale(1.1);
+}
+
 </style>

@@ -152,6 +152,10 @@
   "Comfy_OpenWorkflow": {
     "label": "Abrir Flujo de Trabajo"
   },
+  "Comfy_PublishWorkflow": {
+    "label": "Publicar Flujo de Trabajo",
+    "tooltip": "Publicar Flujo de Trabajo (Requiere nodos sin faltar y configuración de parámetros completa)"
+  },
   "Comfy_QueuePrompt": {
     "label": "Prompt de Cola"
   },

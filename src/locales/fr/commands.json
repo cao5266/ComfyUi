@@ -152,6 +152,10 @@
   "Comfy_OpenWorkflow": {
     "label": "Ouvrir le flux de travail"
   },
+  "Comfy_PublishWorkflow": {
+    "label": "Publier le flux de travail",
+    "tooltip": "Publier le flux de travail (Nécessite aucun nœud manquant et une configuration complète des paramètres)"
+  },
   "Comfy_QueuePrompt": {
     "label": "Invite de file d'attente"
   },
@@ -159,7 +163,7 @@
     "label": "Invite de file d'attente (avant)"
   },
   "Comfy_QueueSelectedOutputNodes": {
-    "label": "Mettre en file d’attente les nœuds de sortie sélectionnés"
+    "label": "Mettre en file d'attente les nœuds de sortie sélectionnés"
   },
   "Comfy_Redo": {
     "label": "Refaire"

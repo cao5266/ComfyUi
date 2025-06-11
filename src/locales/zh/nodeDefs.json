@@ -451,7 +451,7 @@
     "inputs": {
       "ckpt_name": {
         "name": "Checkpoint名称",
-        "tooltip": "要加载的Checkpoint模型的名称。"
+        "tooltip": ""
       }
     },
     "outputs": {
@@ -3400,8 +3400,7 @@
   "Load3D": {
     "display_name": "加载3D",
     "inputs": {
-      "clear": {
-      },
+      "clear": {},
       "height": {
         "name": "高度"
       },
@@ -3411,8 +3410,7 @@
       "model_file": {
         "name": "模型文件"
       },
-      "upload 3d model": {
-      },
+      "upload 3d model": {},
       "width": {
         "name": "宽度"
       }
@@ -3441,8 +3439,7 @@
   "Load3DAnimation": {
     "display_name": "加载3D动画",
     "inputs": {
-      "clear": {
-      },
+      "clear": {},
       "height": {
         "name": "高度"
       },
@@ -3452,8 +3449,7 @@
       "model_file": {
         "name": "模型文件"
       },
-      "upload 3d model": {
-      },
+      "upload 3d model": {},
       "width": {
         "name": "宽度"
       }
@@ -3522,8 +3518,7 @@
       "image": {
         "name": "图像"
       },
-      "refresh": {
-      },
+      "refresh": {},
       "upload": {
         "name": "选择文件上传"
       }
@@ -6443,8 +6438,7 @@
   "PreviewAny": {
     "display_name": "预览任意",
     "inputs": {
-      "preview": {
-      },
+      "preview": {},
       "source": {
         "name": "源"
       }
@@ -8625,8 +8619,7 @@
       "image": {
         "name": "图像"
       },
-      "waiting for camera___": {
-      },
+      "waiting for camera___": {},
       "width": {
         "name": "宽度"
       }

@@ -14,7 +14,7 @@
       <div class="side-tool-bar-end">
         <SidebarLogoutIcon v-if="userStore.isMultiUserServer" />
         <!-- 已隐藏：主题切换和设置按钮 -->
-        <!-- <SidebarThemeToggleIcon /> -->
+        <SidebarThemeToggleIcon />
         <SidebarSettingsToggleIcon />
       </div>
     </nav>
@@ -43,7 +43,7 @@ import SidebarLogoutIcon from './SidebarLogoutIcon.vue'
 // 已隐藏的组件导入
 import SidebarSettingsToggleIcon from './SidebarSettingsToggleIcon.vue'
 
-// import SidebarThemeToggleIcon from './SidebarThemeToggleIcon.vue'
+import SidebarThemeToggleIcon from './SidebarThemeToggleIcon.vue'
 
 const workspaceStore = useWorkspaceStore()
 const settingStore = useSettingStore()

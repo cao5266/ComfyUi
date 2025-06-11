@@ -85,7 +85,8 @@ const isIconOnlyRootItem = (item: MenuItem): boolean => {
     'Open',
     'Save',
     'Export',
-    'Edit'
+    'Edit',
+    'Publish'
   ]
 
   // 首先尝试通过原始英文标签判断
@@ -122,7 +123,8 @@ const getMenuIcon = (
     'Open',
     'Save',
     'Export',
-    'Edit'
+    'Edit',
+    'Publish'
   ]
 
   for (const key of iconOnlyKeys) {
@@ -135,7 +137,8 @@ const getMenuIcon = (
         Open: 'pi pi-folder-open', // 打开图标
         Save: 'pi pi-save', // 保存图标
         Export: 'pi pi-download', // 导出图标
-        Edit: 'pi pi-pencil' // 编辑图标
+        Edit: 'pi pi-pencil', // 编辑图标
+        Publish: 'pi pi-send' // 发布图标
       }
       return iconMap[key] || 'pi pi-circle'
     }

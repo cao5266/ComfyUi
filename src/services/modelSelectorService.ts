@@ -15,7 +15,7 @@ export const useModelSelectorService = () => {
 
   const showModelSelector = (options: ModelSelectorOptions = {}) => {
     const {
-      title = 'Select CHECKPOINT',
+      title = 'Select CHECKPOINT1',
       onSelect = () => {},
       currentModelId
     } = options

@@ -133,7 +133,11 @@
     "modelLibrary": "Model Library",
     "modelVersion": "Version",
     "noModelsFound": "No models found",
-    "searchModelPlaceholder": "Search model name"
+    "searchModelPlaceholder": "Search model name",
+    "newest": "Newest",
+    "popular": "Popular",
+    "sortBy": "Sort By",
+    "selectCheckpointModel": "Select Checkpoint Model"
   },
   "manager": {
     "title": "Custom Nodes Manager",
@@ -516,7 +520,9 @@
     "taskInterrupted": "Task Interrupted",
     "currentTaskInterrupted": "Current running task has been interrupted",
     "queueCleared": "Queue Cleared",
-    "allPendingTasksCleared": "All pending tasks have been cleared"
+    "allPendingTasksCleared": "All pending tasks have been cleared",
+    "stateReset": "State Reset",
+    "stateResetDetail": "All tasks cleared, button state restored"
   },
   "tabMenu": {
     "duplicateTab": "Duplicate Tab",
@@ -1462,5 +1468,30 @@
     "moreHelp": "For more help, visit the",
     "documentationPage": "documentation page",
     "loadError": "Failed to load help: {error}"
+  },
+  "publishSelector": {
+    "title": "Choose Publishing Method",
+    "workflowOnly": {
+      "description": "Publish as original workflow format. Users can learn and reference workflow construction ideas, freely explore node and parameter combinations",
+      "button": "Publish Workflow Only"
+    },
+    "aiApp": {
+      "description": "Streamline ComfyUI workflow by editing only core settings for easy user access. Edited AI applications will gain more traffic and revenue",
+      "button": "Edit AI App"
+    }
+  },
+  "queue": {},
+  "common": {
+    "cancel": "Cancel",
+    "close": "Close",
+    "confirm": "Confirm",
+    "copy": "Copy",
+    "delete": "Delete",
+    "edit": "Edit",
+    "load": "Load",
+    "loading": "Loading",
+    "ok": "OK",
+    "recommended": "Recommended",
+    "rename": "Rename"
   }
 }

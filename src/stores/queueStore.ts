@@ -416,6 +416,9 @@ export const useQueueStore = defineStore('queue', () => {
   const maxHistoryItems = ref(64)
   const isLoading = ref(false)
 
+  // 添加标志位，用于跟踪是否是页面首次加载
+  const isFirstLoad = ref(true)
+
   const tasks = computed<TaskItemImpl[]>(
     () =>
       [
@@ -457,7 +460,15 @@ export const useQueueStore = defineStore('queue', () => {
           )
           .sort((a, b) => b.queueIndex - a.queueIndex)
 
-      runningTasks.value = toClassAll(queue.Running)
+      // 如果是首次加载（页面刷新后），则清空正在运行的任务，让按钮可以点击
+      if (isFirstLoad.value) {
+        runningTasks.value = []
+        isFirstLoad.value = false
+        console.log('页面刷新后清空运行中的任务，恢复按钮可点击状态')
+      } else {
+        runningTasks.value = toClassAll(queue.Running)
+      }
+
       pendingTasks.value = toClassAll(queue.Pending)
 
       const allIndex = new Set<number>(
@@ -494,6 +505,11 @@ export const useQueueStore = defineStore('queue', () => {
     await update()
   }
 
+  const clearRunningTasks = () => {
+    runningTasks.value = []
+    console.log('强制清空运行中的任务列表')
+  }
+
   return {
     runningTasks,
     pendingTasks,
@@ -508,7 +524,8 @@ export const useQueueStore = defineStore('queue', () => {
 
     update,
     clear,
-    delete: deleteTask
+    delete: deleteTask,
+    clearRunningTasks
   }
 })
 

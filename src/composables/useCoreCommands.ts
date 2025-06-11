@@ -673,6 +673,34 @@ export function useCoreCommands(): ComfyCommand[] {
       function: async () => {
         await firebaseAuthActions.logout()
       }
+    },
+    {
+      id: 'Comfy.PublishWorkflow',
+      icon: 'pi pi-send',
+      label: 'Publish Workflow',
+      menubarLabel: 'Publish Workflow',
+      tooltip: 'Publish Workflow',
+      versionAdded: '1.17.8',
+      function: async () => {
+        // 打开发布方式选择对话框
+        const [{ default: PublishSelectorDialog }, { useDialogStore }] =
+          await Promise.all([
+            import('@/components/dialog/content/PublishSelectorDialog.vue'),
+            import('@/stores/dialogStore')
+          ])
+
+        const dialogStore = useDialogStore()
+
+        dialogStore.showDialog({
+          title: '选择发布方式',
+          component: PublishSelectorDialog,
+          dialogComponentProps: {
+            modal: true,
+            closable: true,
+            position: 'center'
+          }
+        })
+      }
     }
   ]
 

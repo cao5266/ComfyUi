@@ -152,6 +152,10 @@
   "Comfy_OpenWorkflow": {
     "label": "워크플로 열기"
   },
+  "Comfy_PublishWorkflow": {
+    "label": "워크플로 게시",
+    "tooltip": "워크플로 게시 (누락된 노드가 없고 매개변수 구성이 완료되어야 함)"
+  },
   "Comfy_QueuePrompt": {
     "label": "실행 큐에 프롬프트 추가"
   },

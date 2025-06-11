@@ -366,7 +366,17 @@
     "upload": "업로드",
     "user": "사용자",
     "videoFailedToLoad": "비디오를 로드하지 못했습니다.",
-    "workflow": "워크플로"
+    "workflow": "워크플로",
+    "selectCheckpoint": "체크포인트 선택",
+    "myModels": "내 모델",
+    "starredModels": "즐겨찾기 모델",
+    "newest": "최신",
+    "popular": "인기",
+    "oneClickApply": "원클릭 적용",
+    "noModelsFound": "모델을 찾을 수 없음",
+    "searchModelPlaceholder": "모델 이름 검색",
+    "sortBy": "정렬",
+    "selectCheckpointModel": "체크포인트 모델 선택"
   },
   "graphCanvasMenu": {
     "fitView": "보기 맞춤",
@@ -1452,26 +1462,5 @@
     "enterFilename": "파일 이름 입력",
     "exportWorkflow": "워크플로 내보내기",
     "saveWorkflow": "워크플로 저장"
-  },
-  "extensionName": "확장 프로그램 이름",
-  "extensionRepo": "확장 프로그램 저장소",
-  "extensionVersion": "확장 프로그램 버전",
-  "executionControl": {
-    "batchCount": "배치 수",
-    "clearQueue": "큐 지우기",
-    "currentMode": "현재 모드",
-    "interrupt": "중단",
-    "mode": "모드",
-    "pause": "일시정지",
-    "queueCleared": "큐가 지워졌습니다",
-    "queueClearedMessage": "실행 큐가 성공적으로 지워졌습니다",
-    "queueInterrupted": "큐가 중단되었습니다",
-    "queueInterruptedMessage": "현재 실행이 중단되었습니다",
-    "resume": "재개",
-    "startGeneration": "생성 시작",
-    "startGenerationTooltip": "현재 워크플로우 실행",
-    "toggleBatchCount": "배치 수 전환",
-    "toggleMode": "모드 전환",
-    "toggleModeTooltip": "즉시 모드와 큐 모드 간 전환"
   }
 }

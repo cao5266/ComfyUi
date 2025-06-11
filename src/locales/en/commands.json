@@ -152,6 +152,10 @@
   "Comfy_OpenWorkflow": {
     "label": "Open Workflow"
   },
+  "Comfy_PublishWorkflow": {
+    "label": "Publish Workflow",
+    "tooltip": "Publish Workflow (Requires no missing nodes and complete parameter configuration)"
+  },
   "Comfy_QueuePrompt": {
     "label": "Queue Prompt"
   },

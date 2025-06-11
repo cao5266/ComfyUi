@@ -31,7 +31,7 @@
     >
       <span>{{ t('executionControl.startGeneration') }}</span>
       <i class="pi pi-bolt text-white" />
-      <span class="generation-count">{{ queueCount }}</span>
+      <span class="generation-count">{{ queueCount | 10 }}</span>
     </Button>
 
     <!-- 中断按钮 -->
