@@ -1,5 +1,10 @@
 <template>
+  <div class="app-container">
+    <AppHeader />
+    <div class="app-content">
   <router-view />
+    </div>
+  </div>
   <ProgressSpinner
     v-if="isLoading"
     class="absolute inset-0 flex justify-center items-center h-[unset]"
@@ -14,6 +19,7 @@ import BlockUI from 'primevue/blockui'
 import ProgressSpinner from 'primevue/progressspinner'
 import { computed, onMounted } from 'vue'
 
+import AppHeader from '@/components/AppHeader.vue'
 import GlobalDialog from '@/components/dialog/GlobalDialog.vue'
 import config from '@/config'
 import { useWorkspaceStore } from '@/stores/workspaceStore'
@@ -49,3 +55,18 @@ onMounted(() => {
   }
 })
 </script>
+
+<style>
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.app-content {
+  flex: 1;
+  overflow: hidden;
+}
+</style>

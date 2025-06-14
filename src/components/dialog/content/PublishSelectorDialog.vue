@@ -78,8 +78,9 @@
 </template>
 
 <script setup lang="ts">
-import { useDialogStore } from '@/stores/dialogStore'
 import { app } from '@/scripts/app'
+import { useDialogStore } from '@/stores/dialogStore'
+import WorkflowListDialog from './WorkflowListDialog.vue'
 
 const dialogStore = useDialogStore()
 
@@ -88,12 +89,21 @@ const dialogStore = useDialogStore()
  */
 const publishWorkflowOnly = () => {
   console.log('仅发布工作流')
-  // TODO: 实现仅发布工作流的逻辑
-  // 关闭对话框
+
+  // 显示工作流列表弹窗
+  dialogStore.showDialog({
+    key: 'workflow-list',
+    title: '发布工作流',
+    component: WorkflowListDialog,
+    dialogComponentProps: {
+      pt: {
+        content: { class: 'w-[820px] max-w-[90vw]' }
+      }
+    }
+  })
+
+  // 关闭当前对话框
   dialogStore.closeDialog()
-  
-  // 显示成功提示
-  // TODO: 可以添加toast提示
 }
 
 /**
@@ -101,13 +111,16 @@ const publishWorkflowOnly = () => {
  */
 const editAiApp = () => {
   console.log('编辑AI应用')
-  
+
+  // 进入AI应用编辑模式
+  dialogStore.enterAiAppEditMode()
+
   // 获取当前工作流的所有节点信息
   const workflowNodes = app.graph?.nodes || []
   console.log('工作流节点信息:', workflowNodes)
-  
+
   // 提取节点的基本信息
-  const nodeInfos = workflowNodes.map(node => ({
+  const nodeInfos = workflowNodes.map((node) => ({
     id: node.id,
     type: node.type,
     title: node.title,
@@ -118,15 +131,15 @@ const editAiApp = () => {
     pos: node.pos, // 节点位置
     size: node.size // 节点大小
   }))
-  
-  console.log('节点详细信息:', nodeInfos)
-  
+
+  console.log('节点详细信息:', JSON.stringify(nodeInfos))
+
   // TODO: 实现编辑AI应用的逻辑
   // 这里可以将节点信息传递给AI应用编辑器
-  
+
   // 关闭对话框
   dialogStore.closeDialog()
-  
+
   // 可能跳转到AI应用编辑页面或打开新的对话框
 }
 </script>
@@ -189,12 +202,20 @@ const editAiApp = () => {
 
 /* 右侧按钮样式 - 编辑AI应用 */
 .ai-app-btn {
-  background: linear-gradient(90deg, rgb(50, 107, 255) 0%, rgb(44, 77, 255) 100%);
+  background: linear-gradient(
+    90deg,
+    rgb(50, 107, 255) 0%,
+    rgb(44, 77, 255) 100%
+  );
   color: white;
 }
 
 .ai-app-btn:hover {
-  background: linear-gradient(90deg, rgb(45, 97, 230) 0%, rgb(39, 69, 230) 100%);
+  background: linear-gradient(
+    90deg,
+    rgb(45, 97, 230) 0%,
+    rgb(39, 69, 230) 100%
+  );
 }
 
 /* 响应式设计 */
@@ -203,7 +224,7 @@ const editAiApp = () => {
     width: 100%;
     padding: 1rem;
   }
-  
+
   .publish-options {
     grid-template-columns: 1fr;
     gap: 1rem;
@@ -323,4 +344,4 @@ const editAiApp = () => {
 .app-item:nth-child(7) {
   background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
 }
-</style> 
+</style>

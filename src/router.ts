@@ -12,7 +12,11 @@ import { useUserStore } from './stores/userStore'
 import { isElectron } from './utils/envUtil'
 
 const isFileProtocol = window.location.protocol === 'file:'
-const basePath = isElectron() ? '/' : window.location.pathname
+const basePath = isElectron()
+  ? '/'
+  : import.meta.env.DEV
+    ? '/'
+    : window.location.pathname
 
 const guardElectronAccess = (
   _to: RouteLocationNormalized,
@@ -27,17 +31,23 @@ const guardElectronAccess = (
 }
 
 const router = createRouter({
-  history: isFileProtocol
-    ? createWebHashHistory()
-    : // Base path must be specified to ensure correct relative paths
-      // Example: For URL 'http://localhost:7801/ComfyBackendDirect',
-      // we need this base path or assets will incorrectly resolve from 'http://localhost:7801/'
-      createWebHistory(basePath),
+  history:
+    isFileProtocol || import.meta.env.DEV
+      ? createWebHashHistory()
+      : // Base path must be specified to ensure correct relative paths
+        // Example: For URL 'http://localhost:7801/ComfyBackendDirect',
+        // we need this base path or assets will incorrectly resolve from 'http://localhost:7801/'
+        createWebHistory(basePath),
   routes: [
     {
       path: '/',
       component: LayoutDefault,
       children: [
+        {
+          path: 'create-ai-app',
+          name: 'CreateAiAppView',
+          component: () => import('@/views/CreateAiAppView.vue')
+        },
         {
           path: '',
           name: 'GraphView',
@@ -110,6 +120,10 @@ const router = createRouter({
           name: 'MaintenanceView',
           component: () => import('@/views/MaintenanceView.vue'),
           beforeEnter: guardElectronAccess
+        },
+        {
+          path: 'create-ai-app/:pathMatch(.*)*',
+          redirect: '/create-ai-app'
         },
         {
           path: 'desktop-update',

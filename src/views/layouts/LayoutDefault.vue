@@ -9,3 +9,9 @@ import { useFavicon } from '@vueuse/core'
 
 useFavicon('/assets/favicon.ico')
 </script>
+
+<style scoped>
+main {
+  height: 100%;
+}
+</style>

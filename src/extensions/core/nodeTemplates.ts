@@ -31,7 +31,6 @@ const id = 'Comfy.NodeTemplates'
 const file = 'comfy.settings.json'
 
 class ManageTemplates extends ComfyDialog {
-  // @ts-expect-error fixme ts strict error
   templates: any[]
   draggedEl: HTMLElement | null
   saveVisualCue: number | null
@@ -40,6 +39,9 @@ class ManageTemplates extends ComfyDialog {
 
   constructor() {
     super()
+    // 初始化为空数组，避免异步加载期间的错误
+    this.templates = []
+
     this.load().then((v) => {
       this.templates = v
     })
@@ -419,7 +421,9 @@ app.registerExtension({
       })
 
       // Map each template to a menu item
-      const subItems = manage.templates.map((t) => {
+      const subItems = (
+        Array.isArray(manage.templates) ? manage.templates : []
+      ).map((t) => {
         return {
           content: t.name,
           callback: () => {

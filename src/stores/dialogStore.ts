@@ -55,7 +55,24 @@ export interface ShowDialogOptions {
 export const useDialogStore = defineStore('dialog', () => {
   const dialogStack = ref<DialogInstance[]>([])
 
+  // AI应用编辑模式状态
+  const aiAppEditMode = ref(false)
+
   const genDialogKey = () => `dialog-${Math.random().toString(36).slice(2, 9)}`
+
+  /**
+   * 进入AI应用编辑模式
+   */
+  function enterAiAppEditMode() {
+    aiAppEditMode.value = true
+  }
+
+  /**
+   * 退出AI应用编辑模式
+   */
+  function exitAiAppEditMode() {
+    aiAppEditMode.value = false
+  }
 
   function riseDialog(options: { key: string }) {
     const dialogKey = options.key
@@ -174,6 +191,9 @@ export const useDialogStore = defineStore('dialog', () => {
     riseDialog,
     showDialog,
     closeDialog,
-    showExtensionDialog
+    showExtensionDialog,
+    aiAppEditMode,
+    enterAiAppEditMode,
+    exitAiAppEditMode
   }
 })

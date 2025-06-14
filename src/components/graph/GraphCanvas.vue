@@ -33,8 +33,8 @@
   <!-- Initialize components after comfyApp is ready. useAbsolutePosition requires
   canvasStore.canvas to be initialized. -->
   <template v-if="comfyAppReady">
-    <TitleEditor />
-    <SelectionOverlay v-if="selectionToolboxEnabled">
+    <TitleEditor v-if="!dialogStore.aiAppEditMode" />
+    <SelectionOverlay v-if="selectionToolboxEnabled && !dialogStore.aiAppEditMode">
       <SelectionToolbox />
     </SelectionOverlay>
     <DomWidgets />
@@ -86,6 +86,7 @@ import { useSettingStore } from '@/stores/settingStore'
 import { useToastStore } from '@/stores/toastStore'
 import { useColorPaletteStore } from '@/stores/workspace/colorPaletteStore'
 import { useWorkspaceStore } from '@/stores/workspaceStore'
+import { useDialogStore } from '@/stores/dialogStore'
 
 const emit = defineEmits<{
   ready: []
@@ -97,6 +98,7 @@ const workspaceStore = useWorkspaceStore()
 const canvasStore = useCanvasStore()
 const executionStore = useExecutionStore()
 const toastStore = useToastStore()
+const dialogStore = useDialogStore()
 const betaMenuEnabled = computed(
   () => settingStore.get('Comfy.UseNewMenu') !== 'Disabled'
 )
@@ -314,6 +316,32 @@ onMounted(async () => {
   comfyApp.canvas.onSelectionChange = useChainCallback(
     comfyApp.canvas.onSelectionChange,
     () => canvasStore.updateSelectedItems()
+  )
+
+  // 监听 AI 应用编辑模式，控制画布编辑功能
+  watch(
+    () => dialogStore.aiAppEditMode,
+    (isEditMode) => {
+      if (canvasStore.canvas) {
+        // 在 AI 应用编辑模式下禁用大部分编辑功能，只保留缩放和拖拽画布
+        canvasStore.canvas.read_only = isEditMode
+        canvasStore.canvas.allow_interaction = !isEditMode
+        canvasStore.canvas.allow_dragcanvas = true // 始终允许拖拽画布
+        canvasStore.canvas.allow_dragnodes = !isEditMode // 禁止拖拽节点
+        canvasStore.canvas.allow_reconnect_links = !isEditMode // 禁止重连链接
+        
+        // 禁用右键菜单
+        if (isEditMode) {
+          // @ts-ignore - LiteGraph canvas 类型定义可能不完整
+          canvasStore.canvas.onContextMenu = () => false
+        } else {
+          // 恢复默认的右键菜单行为
+          // @ts-ignore - LiteGraph canvas 类型定义可能不完整
+          canvasStore.canvas.onContextMenu = null
+        }
+      }
+    },
+    { immediate: true }
   )
 
   // Load color palette

@@ -23,8 +23,10 @@ import { useAbsolutePosition } from '@/composables/element/useAbsolutePosition'
 import { app } from '@/scripts/app'
 import { useCanvasStore, useTitleEditorStore } from '@/stores/graphStore'
 import { useSettingStore } from '@/stores/settingStore'
+import { useDialogStore } from '@/stores/dialogStore'
 
 const settingStore = useSettingStore()
+const dialogStore = useDialogStore()
 
 const showInput = ref(false)
 const editedTitle = ref('')
@@ -82,6 +84,11 @@ watch(
 )
 
 const canvasEventHandler = (event: LiteGraphCanvasEvent) => {
+  // 在 AI 应用编辑模式下禁用标题编辑
+  if (dialogStore.aiAppEditMode) {
+    return
+  }
+
   if (event.detail.subType === 'group-double-click') {
     if (!settingStore.get('Comfy.Group.DoubleClickTitleToEdit')) {
       return
