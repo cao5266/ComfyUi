@@ -66,7 +66,9 @@ onMounted(() => {
 }
 
 .app-content {
+    position: relative;
   flex: 1;
   overflow: hidden;
+  z-index: 999;
 }
 </style>

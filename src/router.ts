@@ -49,6 +49,11 @@ const router = createRouter({
           component: () => import('@/views/CreateAiAppView.vue')
         },
         {
+          path: 'my-works',
+          name: 'MyWorksView',
+          component: () => import('@/views/MyWorksView.vue')
+        },
+        {
           path: '',
           name: 'GraphView',
           component: () => import('@/views/GraphView.vue'),

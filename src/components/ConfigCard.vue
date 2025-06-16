@@ -31,9 +31,9 @@ defineProps<Props>()
 }
 
 .config-title {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 700;
-    margin-bottom: 24px;
+    margin: 0px 0px 10px;
     color: var(--p-surface-900);
     display: flex;
     align-items: center;
@@ -48,15 +48,17 @@ defineProps<Props>()
     border-radius: 2px;
 }
 
-/* 夜间主题 */
-.dark .config-card {
-    background: var(--p-surface-700);
-    border-color: var(--p-surface-600);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+
+:deep(.p-radiobutton-icon),:deep(.p-checkbox-box),:deep(.p-radiobutton-box){
+    background-color: #fff !important;
 }
 
-.dark .config-card:hover {
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
-    border-color: var(--p-surface-500);
+:deep(.p-radiobutton-input),:deep(.p-checkbox-box),:deep(.p-radiobutton-box){
+   border: 1px solid #cbd5e1 !important;
+}
+
+:deep(.p-radiobutton-checked .p-radiobutton-box ),:deep(.p-checkbox-checked .p-checkbox-box){
+    background-color: #3b82f6 !important;
+    border: 1px solid #3b82f6 !important;
 }
 </style> 

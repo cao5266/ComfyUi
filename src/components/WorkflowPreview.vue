@@ -80,11 +80,15 @@ import { LGraph, LGraphCanvas, LGraphNode, LiteGraph } from '@comfyorg/litegraph
 interface Props {
     fileName?: string
     nodeCount?: number
+    connectionCount?: number
+    workflow?: any
 }
 
 const props = withDefaults(defineProps<Props>(), {
     fileName: '',
-    nodeCount: 0
+    nodeCount: 0,
+    connectionCount: 0,
+    workflow: null
 })
 
 // Emits 定义
@@ -103,221 +107,26 @@ const canvasRef = ref<HTMLCanvasElement>()
 let graph: LGraph | null = null
 let canvas: LGraphCanvas | null = null
 
-// 工作流数据 - 从 default.json 中获取
-const workflowData = {
-    "last_node_id": 9,
-    "last_link_id": 9,
-    "nodes": [
-        {
-            "id": 4,
-            "type": "CheckpointLoaderSimple",
-            "pos": [50, 200],
-            "size": [320, 110],
-            "flags": {},
-            "order": 0,
-            "mode": 0,
-            "outputs": [
-                {
-                    "name": "MODEL",
-                    "type": "MODEL",
-                    "links": [1],
-                    "slot_index": 0
-                },
-                {
-                    "name": "CLIP",
-                    "type": "CLIP",
-                    "links": [3, 5],
-                    "slot_index": 1
-                },
-                {
-                    "name": "VAE",
-                    "type": "VAE",
-                    "links": [8],
-                    "slot_index": 2
-                }
-            ],
-            "properties": {},
-            "widgets_values": ["v1-5-pruned-emaonly-fp16.safetensors"]
-        },
-        {
-            "id": 6,
-            "type": "CLIPTextEncode",
-            "pos": [420, 80],
-            "size": [400, 140],
-            "flags": {},
-            "order": 2,
-            "mode": 0,
-            "inputs": [
-                {
-                    "name": "clip",
-                    "type": "CLIP",
-                    "link": 3
-                }
-            ],
-            "outputs": [
-                {
-                    "name": "CONDITIONING",
-                    "type": "CONDITIONING",
-                    "links": [4],
-                    "slot_index": 0
-                }
-            ],
-            "properties": {},
-            "widgets_values": ["beautiful scenery nature glass bottle landscape, purple galaxy bottle"]
-        },
-        {
-            "id": 7,
-            "type": "CLIPTextEncode",
-            "pos": [420, 260],
-            "size": [400, 140],
-            "flags": {},
-            "order": 3,
-            "mode": 0,
-            "inputs": [
-                {
-                    "name": "clip",
-                    "type": "CLIP",
-                    "link": 5
-                }
-            ],
-            "outputs": [
-                {
-                    "name": "CONDITIONING",
-                    "type": "CONDITIONING",
-                    "links": [6],
-                    "slot_index": 0
-                }
-            ],
-            "properties": {},
-            "widgets_values": ["text, watermark"]
-        },
-        {
-            "id": 5,
-            "type": "EmptyLatentImage",
-            "pos": [420, 440],
-            "size": [320, 110],
-            "flags": {},
-            "order": 1,
-            "mode": 0,
-            "outputs": [
-                {
-                    "name": "LATENT",
-                    "type": "LATENT",
-                    "links": [2],
-                    "slot_index": 0
-                }
-            ],
-            "properties": {},
-            "widgets_values": [512, 512, 1]
-        },
-        {
-            "id": 3,
-            "type": "KSampler",
-            "pos": [880, 160],
-            "size": [320, 280],
-            "flags": {},
-            "order": 4,
-            "mode": 0,
-            "inputs": [
-                {
-                    "name": "model",
-                    "type": "MODEL",
-                    "link": 1
-                },
-                {
-                    "name": "positive",
-                    "type": "CONDITIONING",
-                    "link": 4
-                },
-                {
-                    "name": "negative",
-                    "type": "CONDITIONING",
-                    "link": 6
-                },
-                {
-                    "name": "latent_image",
-                    "type": "LATENT",
-                    "link": 2
-                }
-            ],
-            "outputs": [
-                {
-                    "name": "LATENT",
-                    "type": "LATENT",
-                    "links": [7],
-                    "slot_index": 0
-                }
-            ],
-            "properties": {},
-            "widgets_values": [156680208700286, true, 20, 8, "euler", "normal", 1]
-        },
-        {
-            "id": 8,
-            "type": "VAEDecode",
-            "pos": [1260, 200],
-            "size": [220, 80],
-            "flags": {},
-            "order": 5,
-            "mode": 0,
-            "inputs": [
-                {
-                    "name": "samples",
-                    "type": "LATENT",
-                    "link": 7
-                },
-                {
-                    "name": "vae",
-                    "type": "VAE",
-                    "link": 8
-                }
-            ],
-            "outputs": [
-                {
-                    "name": "IMAGE",
-                    "type": "IMAGE",
-                    "links": [9],
-                    "slot_index": 0
-                }
-            ],
-            "properties": {}
-        },
-        {
-            "id": 9,
-            "type": "SaveImage",
-            "pos": [1540, 200],
-            "size": [220, 60],
-            "flags": {},
-            "order": 6,
-            "mode": 0,
-            "inputs": [
-                {
-                    "name": "images",
-                    "type": "IMAGE",
-                    "link": 9
-                }
-            ],
-            "properties": {}
-        }
-    ],
-    "links": [
-        [1, 4, 0, 3, 0, "MODEL"],
-        [2, 5, 0, 3, 3, "LATENT"],
-        [3, 4, 1, 6, 0, "CLIP"],
-        [4, 6, 0, 3, 1, "CONDITIONING"],
-        [5, 4, 1, 7, 0, "CLIP"],
-        [6, 7, 0, 3, 2, "CONDITIONING"],
-        [7, 3, 0, 8, 0, "LATENT"],
-        [8, 4, 2, 8, 1, "VAE"],
-        [9, 8, 0, 9, 0, "IMAGE"]
-    ],
-    "groups": [],
-    "config": {},
-    "extra": {},
-    "version": 0.4
-}
+// 计算链接数量
+const linkCount = computed(() => {
+    return props.connectionCount || 0
+})
 
-// 计算属性
-const linkCount = computed(() => workflowData.links.length)
+// 工作流数据 - 使用传入的 prop 或默认数据
+const getWorkflowData = computed(() => {
+    return props.workflow || {
+        "last_node_id": 9,
+        "last_link_id": 9,
+        "nodes": [
+            // ... 默认工作流数据作为后备
+        ],
+        "links": [],
+        "groups": [],
+        "config": {},
+        "extra": {},
+        "version": 0.4
+    }
+})
 
 // 方法
 const togglePreview = async () => {
@@ -417,7 +226,7 @@ const registerNodeTypes = () => {
                 // @ts-ignore - LiteGraph 方法类型定义可能不完整
                 this.addOutput('VAE', 'VAE')
                 // @ts-ignore - LiteGraph 方法类型定义可能不完整
-                this.addWidget('combo', 'ckpt_name', 'v1-5-pruned-emaonly-fp16.safetensors', null, {
+                this.addWidget('combo', 'ckpt_name', 'v1-5-pruned-emaonly-fp16.safetensors', () => {}, {
                     values: ['v1-5-pruned-emaonly-fp16.safetensors']
                 })
             }
@@ -437,7 +246,7 @@ const registerNodeTypes = () => {
                 // @ts-ignore - LiteGraph 方法类型定义可能不完整
                 this.addOutput('CONDITIONING', 'CONDITIONING')
                 // @ts-ignore - LiteGraph 方法类型定义可能不完整
-                this.addWidget('text', 'text', 'beautiful scenery nature glass bottle landscape, purple galaxy bottle')
+                this.addWidget('text', 'text', 'beautiful scenery nature glass bottle landscape, purple galaxy bottle', () => {})
             }
         }
         LiteGraph.registerNodeType('CLIPTextEncode', CLIPTextEncode)
@@ -453,11 +262,11 @@ const registerNodeTypes = () => {
                 // @ts-ignore - LiteGraph 方法类型定义可能不完整
                 this.addOutput('LATENT', 'LATENT')
                 // @ts-ignore - LiteGraph 方法类型定义可能不完整
-                this.addWidget('number', 'width', 512)
+                this.addWidget('number', 'width', 512, () => {})
                 // @ts-ignore - LiteGraph 方法类型定义可能不完整
-                this.addWidget('number', 'height', 512)
+                this.addWidget('number', 'height', 512, () => {})
                 // @ts-ignore - LiteGraph 方法类型定义可能不完整
-                this.addWidget('number', 'batch_size', 1)
+                this.addWidget('number', 'batch_size', 1, () => {})
             }
         }
         LiteGraph.registerNodeType('EmptyLatentImage', EmptyLatentImage)
@@ -483,25 +292,25 @@ const registerNodeTypes = () => {
                 
                 // 添加参数控件
                 // @ts-ignore - LiteGraph 方法类型定义可能不完整
-                this.addWidget('number', 'seed', 156680208700286)
+                this.addWidget('number', 'seed', 156680208700286, () => {})
                 // @ts-ignore - LiteGraph 方法类型定义可能不完整
-                this.addWidget('combo', 'control_after_generate', 'randomize', null, {
+                this.addWidget('combo', 'control_after_generate', 'randomize', () => {}, {
                     values: ['randomize', 'increment', 'decrement', 'fixed']
                 })
                 // @ts-ignore - LiteGraph 方法类型定义可能不完整
-                this.addWidget('number', 'steps', 20)
+                this.addWidget('number', 'steps', 20, () => {})
                 // @ts-ignore - LiteGraph 方法类型定义可能不完整
-                this.addWidget('number', 'cfg', 8.0)
+                this.addWidget('number', 'cfg', 8.0, () => {})
                 // @ts-ignore - LiteGraph 方法类型定义可能不完整
-                this.addWidget('combo', 'sampler_name', 'euler', null, {
+                this.addWidget('combo', 'sampler_name', 'euler', () => {}, {
                     values: ['euler', 'euler_ancestral', 'heun', 'dpm_2', 'dpm_2_ancestral']
                 })
                 // @ts-ignore - LiteGraph 方法类型定义可能不完整
-                this.addWidget('combo', 'scheduler', 'normal', null, {
+                this.addWidget('combo', 'scheduler', 'normal', () => {}, {
                     values: ['normal', 'karras', 'exponential', 'sgm_uniform', 'simple']
                 })
                 // @ts-ignore - LiteGraph 方法类型定义可能不完整
-                this.addWidget('number', 'denoise', 1.00)
+                this.addWidget('number', 'denoise', 1.00, () => {})
             }
         }
         LiteGraph.registerNodeType('KSampler', KSampler)
@@ -535,7 +344,7 @@ const registerNodeTypes = () => {
                 // @ts-ignore - LiteGraph 方法类型定义可能不完整
                 this.addInput('images', 'IMAGE')
                 // @ts-ignore - LiteGraph 方法类型定义可能不完整
-                this.addWidget('text', 'filename_prefix', 'ComfyUI')
+                this.addWidget('text', 'filename_prefix', 'ComfyUI', () => {})
             }
         }
         LiteGraph.registerNodeType('SaveImage', SaveImage)
@@ -548,6 +357,9 @@ const loadWorkflow = () => {
     try {
         // 清空现有图形
         graph.clear()
+        
+        // 使用传入的工作流数据
+        const workflowData = getWorkflowData.value
         
         // 配置图形 - 使用 @ts-ignore 忽略类型检查
         // @ts-ignore - workflowData 格式与 LiteGraph 兼容

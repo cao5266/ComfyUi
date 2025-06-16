@@ -35,28 +35,18 @@ app.registerExtension({
   },
 
   beforeRegisterNodeDef(nodeType: any, nodeData: any) {
-    console.log('🔍 Checking node type:', nodeData.name)
-
     // 检查是否是 checkpoint 相关节点
     if (nodeData.name && nodeData.name.includes('Checkpoint')) {
-      console.log('✅ Found checkpoint node definition:', nodeData.name)
-
       // 保存原始的 onAdded 方法
       const origOnAdded = nodeType.prototype.onAdded
 
       nodeType.prototype.onAdded = function () {
-        console.log('📝 Checkpoint node added to canvas:', this.type)
-
         // 调用原始方法
         const result = origOnAdded?.apply(this, arguments)
 
         // 延迟处理 widgets
         setTimeout(() => {
-          console.log('🔧 Processing widgets for node:', this.type)
-
           if (this.widgets) {
-            console.log('📋 Node has', this.widgets.length, 'widgets')
-
             this.widgets.forEach((widget: any, index: number) => {
               console.log(
                 `🎮 Widget ${index}:`,
@@ -75,10 +65,6 @@ app.registerExtension({
                     widget.name.includes('model_name'))
 
                 if (isCheckpointWidget) {
-                  console.log(
-                    '🎯 Found checkpoint widget, applying minimal interception...'
-                  )
-
                   // 标记这个widget为被拦截的
                   widget._isIntercepted = true
 
@@ -88,19 +74,8 @@ app.registerExtension({
 
                   // 只重写鼠标处理，保持其他功能不变
                   widget.mouse = function (event: any, pos: any, node: any) {
-                    console.log(
-                      '🖱️ Checkpoint widget mouse event:',
-                      event.type,
-                      event.button
-                    )
-
                     // 拦截左键点击事件
                     if (event.button === 0) {
-                      console.log(
-                        '🎉 Intercepting left click for checkpoint widget!',
-                        event.type
-                      )
-
                       // 阻止默认行为和事件传播
                       event.preventDefault()
                       event.stopPropagation()
@@ -112,10 +87,6 @@ app.registerExtension({
                         const result = showModelSelector({
                           title: t('g.selectCheckpointModel'),
                           onSelect: (selectedModel: ModelInfo) => {
-                            console.log(
-                              '✅ Model selected:',
-                              selectedModel.displayName
-                            )
                             widget.value = selectedModel.displayName
                             if (originalCallback) {
                               originalCallback.call(

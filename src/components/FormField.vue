@@ -35,11 +35,10 @@ defineProps<Props>()
 .form-field {
     display: flex;
     flex-direction: column;
-    gap: 12px;
 }
 
 .form-label {
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 700;
     color: var(--p-surface-900);
     margin-bottom: 4px;
@@ -56,20 +55,16 @@ defineProps<Props>()
 }
 
 .form-hint {
-    font-size: 13px;
+    font-size: 12px;
     line-height: 1.5;
-    color: var(--p-surface-600);
-    background: var(--p-surface-50);
-    padding: 8px 12px;
-    border-radius: 8px;
-    border-left: 3px solid var(--p-primary-200);
-    margin-bottom: 8px;
+    color: #999;
+    margin-bottom: 5px;
 }
 
 .char-count {
     text-align: right;
     font-size: 12px;
-    color: var(--p-surface-500);
+    color: #999;
     font-weight: 500;
     margin-top: 4px;
 }

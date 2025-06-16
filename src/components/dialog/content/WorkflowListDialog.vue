@@ -1,3 +1,18 @@
+<!--
+WorkflowListDialog - 工作流列表对话框
+
+功能说明：
+1. 显示已发布的工作流列表
+2. 支持创建新的AI应用（基于当前工作流）
+3. 自动获取当前编辑工作流页面的所有节点数据
+4. 将工作流数据传递给创建AI应用页面
+
+使用方法：
+- 在编辑工作流页面点击"新建工作流"按钮
+- 此对话框会自动获取当前工作流的所有节点
+- 点击"新建工作流"会将数据保存到 localStorage 并跳转到创建AI应用页面
+-->
+
 <template>
     <div class="workflow-list-dialog">
         <!-- 工作流网格 -->
@@ -56,6 +71,7 @@
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useDialogStore } from "@/stores/dialogStore";
+import { app } from "@/scripts/app";
 
 interface PublishedWorkflow {
     id: string;
@@ -72,11 +88,90 @@ const router = useRouter();
 const publishedWorkflows = ref<PublishedWorkflow[]>([]);
 
 /**
- * 组件挂载时加载历史工作流
+ * 获取当前编辑工作流页面的所有节点
  */
-onMounted(() => {
-    loadPublishedWorkflows();
-});
+const getCurrentWorkflowNodes = () => {
+    try {
+        // 获取当前图形的所有节点
+        const nodes = app.graph.nodes;
+        console.log('当前工作流节点数量:', nodes.length);
+        console.log('当前工作流节点详情:', nodes);
+        
+        // 序列化整个工作流
+        const workflow = app.graph.serialize();
+        console.log('序列化的工作流:', workflow);
+        
+        return {
+            nodes: nodes,
+            workflow: workflow,
+            nodeCount: nodes.length,
+            linkCount: app.graph.links ? Object.keys(app.graph.links).length : 0
+        };
+    } catch (error) {
+        console.error('获取工作流节点失败:', error);
+        return null;
+    }
+};
+
+/**
+ * 获取当前工作流的详细信息
+ */
+const getCurrentWorkflowInfo = () => {
+    const workflowData = getCurrentWorkflowNodes();
+    if (!workflowData) return null;
+    
+    return {
+        fileName: `工作流_${new Date().toISOString().slice(0, 10)}.json`,
+        nodeCount: workflowData.nodeCount,
+        connectionCount: workflowData.linkCount,
+        workflow: workflowData.workflow,
+        nodes: workflowData.nodes
+    };
+};
+
+/**
+ * 获取工作流的统计信息
+ */
+const getWorkflowStats = () => {
+    const workflowData = getCurrentWorkflowNodes();
+    if (!workflowData) return null;
+    
+    const nodeTypes = new Set();
+    workflowData.nodes.forEach(node => {
+        nodeTypes.add(node.type);
+    });
+    
+    return {
+        totalNodes: workflowData.nodeCount,
+        totalConnections: workflowData.linkCount,
+        uniqueNodeTypes: nodeTypes.size,
+        nodeTypes: Array.from(nodeTypes)
+    };
+};
+
+/**
+ * 检查当前工作流是否有效（至少包含一些节点）
+ */
+const isValidWorkflow = () => {
+    try {
+        return app.graph.nodes.length > 0;
+    } catch (error) {
+        console.error('检查工作流有效性失败:', error);
+        return false;
+    }
+};
+
+/**
+ * 导出工作流为 JSON 字符串
+ */
+const exportWorkflowAsJson = () => {
+    const workflowData = getCurrentWorkflowNodes();
+    if (!workflowData) return null;
+    
+    return JSON.stringify(workflowData.workflow, null, 2);
+};
+
+
 
 /**
  * 加载已发布的工作流列表
@@ -107,13 +202,43 @@ const loadPublishedWorkflows = async () => {
 };
 
 /**
- * 创建新工作流
+ * 创建新工作流 - 将当前工作流数据传递到创建AI应用页面
  */
 const createNewWorkflow = () => {
     console.log("创建新工作流");
-    dialogStore.closeDialog();
-    // 使用Vue Router进行导航
-    router.push('/create-ai-app');
+    
+    // 检查工作流是否有效
+    if (!isValidWorkflow()) {
+        console.warn('当前工作流无效或为空，无法创建AI应用');
+        alert('请先在编辑器中创建一些节点，然后再创建AI应用');
+        return;
+    }
+    
+    // 获取当前工作流数据
+    const currentWorkflow = getCurrentWorkflowInfo();
+    const stats = getWorkflowStats();
+    
+    if (currentWorkflow && stats) {
+        // 将工作流数据保存到 localStorage
+        localStorage.setItem('currentWorkflow', JSON.stringify(currentWorkflow.workflow));
+        localStorage.setItem('currentWorkflowFileName', currentWorkflow.fileName);
+        
+        console.log('已将工作流数据保存到 localStorage:', {
+            fileName: currentWorkflow.fileName,
+            nodeCount: currentWorkflow.nodeCount,
+            connectionCount: currentWorkflow.connectionCount,
+            uniqueNodeTypes: stats.uniqueNodeTypes,
+            nodeTypes: stats.nodeTypes
+        });
+        
+        // 关闭对话框并跳转
+        dialogStore.closeDialog();
+        // router.push('/create-ai-app');
+        window.location.href = '/#/create-ai-app';
+    } else {
+        console.error('获取工作流数据失败');
+        alert('获取工作流数据失败，请稍后再试');
+    }
 };
 
 /**
@@ -132,6 +257,19 @@ const refreshWorkflow = (workflow: PublishedWorkflow) => {
     console.log("刷新工作流:", workflow);
     // TODO: 实现刷新工作流的逻辑
 };
+
+/**
+ * 组件挂载时加载历史工作流
+ */
+ onMounted(() => {
+    loadPublishedWorkflows();
+    
+    // 获取当前工作流信息用于调试
+    const currentWorkflow = getCurrentWorkflowInfo();
+    if (currentWorkflow) {
+        console.log('当前工作流信息:', currentWorkflow);
+    }
+});
 
 </script>
 
